@@ -32,14 +32,6 @@ void AHungryState::Tick(float DeltaTime)
 void AHungryState::Execute(float DeltaTime) 
 {
 	float step = speed * DeltaTime;
-	if (Pet->Foods.Num() == 0)
-	{
-		Pet->Hunger->Eating = false;
-		Pet->Health->Healing = false;
-		TArray<AActor*> FoundActors;
-		UGameplayStatics::GetAllActorsOfClass(AIActor->GetWorld(), AFood::StaticClass(), FoundActors);
-		Pet->Foods.Add((AFood*)FoundActors[0]);
-	}
 
 	if (Pet->Foods.Num() > 0)
 	{
@@ -57,7 +49,7 @@ void AHungryState::Execute(float DeltaTime)
 
 			if (FVector::Dist(Nodes[0]->GetActorLocation(), AIActor->GetActorLocation()) < 1)
 			{
-				Nodes.Pop();
+				Nodes.RemoveAt(0);
 			}
 		}
 		float distanceBetweenObjects = FVector::Dist(GetTransform().GetLocation(), Pet->Foods[0]->GetTransform().GetLocation());
@@ -70,15 +62,5 @@ void AHungryState::Execute(float DeltaTime)
 
 void AHungryState::Init()
 {
-	Star = NewObject<AAStar>(this, AAStar::StaticClass());
-	TArray<AActor*> FoundActors;
-	UGameplayStatics::GetAllActorsOfClass(AIActor->GetWorld(), AGrid::StaticClass(), FoundActors);
-	AGrid* grid = (AGrid*)FoundActors[0];
-	for (int i = 0; i < grid->SizeX; i++)
-	{
-		for (int j = 0; j < grid->SizeY; j++)
-		{
-			Star->Nodes.Add(grid->Nodes2[i].Nodes[j]);
-		}
-	}
+	
 }

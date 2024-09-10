@@ -21,7 +21,7 @@ public:
 	UPROPERTY()
 	APet* Pet;
 	float speed;
-	AAStar* Star;
+	AAStar* Stasr;
 	TArray<AANode*> Nodes;
 protected:
 	// Called when the game starts or when spawned

@@ -2,6 +2,9 @@
 
 
 #include "AIFolder/StateMachineFolder/StateMachine.h"
+#include "AIFolder/Algorithm/AStar.h"
+#include "Entities/Grid.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AStateMachine::AStateMachine()
@@ -40,6 +43,21 @@ void AStateMachine::Init()
     wander->Init();
     hungry->Init();
     dying->Init();
+
+    AAStar * Star = NewObject<AAStar>(this, AAStar::StaticClass());
+    TArray<AActor*> FoundActors;
+    UGameplayStatics::GetAllActorsOfClass(AIActor->GetWorld(), AGrid::StaticClass(), FoundActors);
+    AGrid* grid = (AGrid*)FoundActors[0];
+    for (int i = 0; i < grid->SizeX; i++)
+    {
+        for (int j = 0; j < grid->SizeY; j++)
+        {
+            Star->Nodes.Add(grid->Nodes2[i].Nodes[j]);
+        }
+    }
+    wander->Star = Star;
+    hungry->Star = Star;
+
     AConnection* con = AIActor->GetWorld()->SpawnActor<AConnection>(FVector(0,0,0), FRotator(0.0f, 0.0f, 0.0f));
     con->Init(hungry);
     wander->Connections.Add("hungry", con);

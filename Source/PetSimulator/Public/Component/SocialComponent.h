@@ -16,7 +16,9 @@ public:
 	// Sets default values for this component's properties
 	USocialComponent();
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float Happiness;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float HappinessMax;
 	float PercentLost;
 
@@ -36,5 +38,6 @@ public:
 
 	void LosingHappiness(float DeltaTime);
 	void AddHappiness(float heal);
+	UFUNCTION(BlueprintCallable)
 	void Pet();
 };

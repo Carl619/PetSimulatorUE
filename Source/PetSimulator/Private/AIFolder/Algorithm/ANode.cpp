@@ -18,6 +18,8 @@ AANode::AANode()
 	SphereCollision->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	HValue = 1;
 	Cost = 1;
+	GValue = 99999999;
+	FValue = 99999999;
 }
 
 // Called when the game starts or when spawned

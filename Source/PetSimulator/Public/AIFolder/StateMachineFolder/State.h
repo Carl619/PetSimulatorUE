@@ -7,6 +7,8 @@
 #include "Connection.h"
 #include "State.generated.h"
 
+class AAStar;
+
 UCLASS()
 class PETSIMULATOR_API AState : public AActor
 {
@@ -19,6 +21,7 @@ public:
 	TMap<FString, AConnection*> Connections;
 	UPROPERTY()
 	AActor* AIActor;
+	AAStar* Star;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

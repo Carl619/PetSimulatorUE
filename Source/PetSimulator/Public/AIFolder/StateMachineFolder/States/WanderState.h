@@ -10,7 +10,7 @@
 #include "WanderState.generated.h"
 
 class AGrid;
-class AAStar;
+
 class AANode;
 
 UCLASS()
@@ -32,7 +32,6 @@ public:
 private: 
 	FQuat LookRotation;
 	FVector Direction;
-	AAStar* Star;
 	TArray<AANode*> Nodes;
 protected:
 	// Called when the game starts or when spawned

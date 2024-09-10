@@ -57,6 +57,7 @@ TArray<AANode*> AAStar::Search(int start, int goal)
     TMap<int, AANode*> cameFrom = TMap<int, AANode*>();
 
 
+    CalculateH(goal);
 
     Nodes[start]->GValue = 0;
 
@@ -78,7 +79,7 @@ TArray<AANode*> AAStar::Search(int start, int goal)
 
         {
 
-            return Reconstruct(current->ID, start, current, cameFrom);
+            return Reconstruct(current->ID, Nodes[start]->ID, current, cameFrom);
 
         }
 
@@ -199,8 +200,8 @@ void AAStar::Restart()
 {
     for (int i = 0; i < Nodes.Num(); i++)
     {
-        Nodes[i]->FValue = 0;
-        Nodes[i]->GValue = 0;
+        Nodes[i]->FValue = 99999999;
+        Nodes[i]->GValue = 99999999;
     }
 }
 
@@ -211,6 +212,9 @@ void AAStar::CalculateH(int goal)
         if (i != goal)
         {
             Nodes[i]->HValue = FVector::Dist(Nodes[i]->GetActorLocation(), Nodes[goal]->GetActorLocation());
+        }
+        else {
+            Nodes[goal]->HValue = 0;
         }
     }
 }

@@ -15,8 +15,10 @@ class PETSIMULATOR_API UHungerComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UHungerComponent();
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float Hunger;
-	const float HungerMax = 100;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float HungerMax = 100;
 	float PercentAdded;
 
 	float Cooldown;

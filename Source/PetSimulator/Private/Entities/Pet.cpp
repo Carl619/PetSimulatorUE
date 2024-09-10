@@ -68,10 +68,6 @@ void APet::Death()
 {
 }
 
-void APet::CreateFood()
-{
-}
-
 void APet::Cure(float heal)
 {
 	Health->AddHealth(heal);

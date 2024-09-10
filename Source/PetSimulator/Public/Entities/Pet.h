@@ -34,6 +34,7 @@ public:
 	USocialComponent* Social;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UHungerComponent* Hunger;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TArray<AFood*> Foods;
 	int test;
 
@@ -46,7 +47,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	void LookingForFood(float DeltaTime);
 	void Death();
-	void CreateFood();
 	void Cure(float heal);
 	void Move(float speed, float DeltaTime);
 	void Eat();

@@ -8,6 +8,7 @@
 #include "DyingState.generated.h"
 
 class APet;
+class AANode;
 UCLASS()
 class PETSIMULATOR_API ADyingState : public AState
 {
@@ -18,7 +19,8 @@ public:
 	ADyingState();
 	UPROPERTY()
 	APet* Pet;
-
+	float speed;
+	TArray<AANode*> Nodes;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

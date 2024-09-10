@@ -18,7 +18,7 @@ AWanderState::AWanderState()
     Cooldownmax = 3;
     Cooldown = 0;
     StateAction = TEXT("Wander around the room");
-    speed = 10;
+    speed = 5;
 }
 
 // Called when the game starts or when spawned
@@ -38,16 +38,18 @@ void AWanderState::Execute(float DeltaTime)
 {
     float step = speed * DeltaTime; // calculate distance to move
     Cooldown += DeltaTime;
-   
-    if (Cooldown > Cooldownmax) {
-        Star->Restart();
-        int x = FMath::RandRange(0, 4);
-        int y = FMath::RandRange(0, 4);
-        Nodes = Star->Search(Star->NearestNodeID(AIActor->GetActorLocation()), x + y * 5);
-        Cooldown = 0;
+    if (Nodes.IsEmpty())
+    {
+        if (Cooldown > Cooldownmax) {
+            Star->Restart();
+            int x = FMath::RandRange(0, 4);
+            int y = FMath::RandRange(0, 4);
+            int goal = x + y * 5;
+            Nodes = Star->Search(Star->NearestNodeID(AIActor->GetActorLocation()), goal);
+            Cooldown = 0;
+        }
     }
-
-    while (!Nodes.IsEmpty())
+    if (!Nodes.IsEmpty())
     {
         FRotator RotTarget = UKismetMathLibrary::FindLookAtRotation(AIActor->GetActorLocation(), Nodes[0]->GetActorLocation());
         FQuat NewRotation = FQuat::Slerp(AIActor->GetActorQuat(), RotTarget.Quaternion(), DeltaTime * speed);
@@ -56,23 +58,12 @@ void AWanderState::Execute(float DeltaTime)
 
         if (FVector::Dist(Nodes[0]->GetActorLocation(), AIActor->GetActorLocation()) < 1)
         {
-            Nodes.Pop();
+            Nodes.RemoveAt(0);
         }
     }
 }
 
 void AWanderState::Init()
 {
-    Star = NewObject<AAStar>(this, AAStar::StaticClass());
-    TArray<AActor*> FoundActors;
-    UGameplayStatics::GetAllActorsOfClass(AIActor->GetWorld(), AGrid::StaticClass(), FoundActors);
-    AGrid* grid = (AGrid*)FoundActors[0];
-    for (int i = 0; i < grid->SizeX; i++)
-    {
-        for (int j = 0; j < grid->SizeY; j++)
-        {
-            Star->Nodes.Add(grid->Nodes2[i].Nodes[j]);
-        }
-    }
 }
 
